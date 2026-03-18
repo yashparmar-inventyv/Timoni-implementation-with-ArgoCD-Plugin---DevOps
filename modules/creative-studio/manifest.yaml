@@ -17,7 +17,7 @@ metadata:
   namespace: creative-studio
 spec:
   minReadySeconds: 5
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: creative-studio
