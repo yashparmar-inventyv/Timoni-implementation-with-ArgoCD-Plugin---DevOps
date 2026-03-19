@@ -4,7 +4,8 @@ package main
 
 values: {
 	metadata: {
-		namespace: "creative-studio-stage"
+		name:      *"creative-studio" | string
+		namespace: *"creative-studio-stage" | string
 	}
 
 	app: "creative-studio"

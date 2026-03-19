@@ -18,7 +18,7 @@ timoni: {
 		
 			metadata: {
 				name: *values.metadata.name | string @tag(name)
-				namespace: values.metadata.namespace
+				namespace: *values.metadata.namespace | string @tag(namespace)
 			
 				#Version: moduleVersion
 			}

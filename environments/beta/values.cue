@@ -4,7 +4,8 @@ package main
 
 values: {
 	metadata: {
-		namespace: "creative-studio-beta"
+		name:      *"creative-studio" | string
+		namespace: *"creative-studio-beta" | string
 	}
 
 	app: "creative-studio"
