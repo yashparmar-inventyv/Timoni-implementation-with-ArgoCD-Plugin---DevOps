@@ -1,0 +1,50 @@
+name: Timoni CD
+
+on:
+  repository_dispatch:
+    types: [update-image]
+
+jobs:
+  update-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Ensure Timoni is installed
+        run: |
+          if ! command -v timoni &> /dev/null
+          then
+            echo "Installing Timoni..."
+            curl -sSL https://github.com/stefanprodan/timoni/releases/latest/download/timoni-linux-amd64.tar.gz | tar -xz
+            sudo mv timoni /usr/local/bin/
+          else
+            echo "Timoni already installed"
+          fi
+
+      - name: Create manifest directories
+        run: |
+          mkdir -p deploy/manifests/prod
+
+      - name: Set digest
+        run: |
+          echo "IMAGE_DIGEST=${{ github.event.client_payload.image_digest }}" >> $GITHUB_ENV
+
+      - name: Update values.cue
+        run: |
+          sed -i "s|digest: \".*\"|digest: \"${IMAGE_DIGEST}\"|" modules/creative-studio/values.cue
+
+      - name: Generate manifests
+        run: |
+          timoni build creative-studio ./modules/creative-studio \
+            --values modules/creative-studio/values.cue \
+            > deploy/manifests/prod/all.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Update image to ${IMAGE_TAG}" || echo "No changes to commit"
+          git push
