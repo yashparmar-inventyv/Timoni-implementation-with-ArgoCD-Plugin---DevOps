@@ -5,7 +5,9 @@ package main
 values: {
 
 	metadata: {
-		name:      "creative-studio"
+		// Make `name` flexible so Timoni's `@tag(name)` default (e.g. "default")
+		// doesn't conflict during `timoni mod vet`.
+		name:      *"creative-studio" | string
 		namespace: "creative-studio-prod"
 	}
 

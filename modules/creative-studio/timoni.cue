@@ -17,8 +17,8 @@ timoni: {
 			kubeVersion:   *"1.29" | string @tag(kv, var=kubeVersion)
 		
 			metadata: {
-				name:      *values.metadata.name | string @tag(name)
-				namespace: *values.metadata.namespace | string @tag(namespace)
+				name: *values.metadata.name | string @tag(name)
+				namespace: values.metadata.namespace
 			
 				#Version: moduleVersion
 			}
