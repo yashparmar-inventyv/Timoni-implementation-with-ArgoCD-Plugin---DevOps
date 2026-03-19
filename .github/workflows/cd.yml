@@ -44,11 +44,19 @@ jobs:
             --values modules/creative-studio/values.cue \
             > deploy/manifests/prod/all.yaml
 
-      - name: Commit and push changes
+      - name: Commit and push changes (final fix)
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+      
+          # Always sync first
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+      
+          # Apply your changes
           git add .
-          git commit -m "Update image to ${IMAGE_DIGEST}" || echo "No changes to commit"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          git commit -m "Update image to ${IMAGE_DIGEST}" || echo "No changes"
+      
+          # Push
+          git push origin main
