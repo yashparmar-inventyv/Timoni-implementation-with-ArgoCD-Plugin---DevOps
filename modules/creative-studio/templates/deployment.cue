@@ -60,7 +60,7 @@ import (
 
 						envFrom: [
 							{
-								secretRef: {
+								secretRef: corev1.#SecretEnvSource & {
 									name: #config.secretName
 								}
 							},

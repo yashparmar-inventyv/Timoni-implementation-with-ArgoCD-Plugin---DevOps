@@ -27,7 +27,7 @@ import (
 
 	// secretName is the name of an existing Secret in the same namespace.
 	// It is not created by this module.
-	secretName?: *"creative-studio-secrets" | string
+	secretName: *"creative-studio-secrets" | string
 
 	strategy?: {
 		maxUnavailable: int
