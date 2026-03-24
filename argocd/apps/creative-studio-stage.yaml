@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: creative-studio-stage
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/DenisRuparel/Timoni-implementation---DevOps
+    targetRevision: main
+    path: deploy/manifests/stage
+  destination:
+    server: https://192.168.56.107:6443
+    namespace: creative-studio-stage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
